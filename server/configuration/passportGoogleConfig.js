@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import passport from 'passport';
-import GoogleStrategy from 'passport-google-oauth2';
+import GoogleStrategy from 'passport-google-oauth20';
 import userSchema from '../models/userModel.js';
 
 dotenv.config();
@@ -28,8 +28,10 @@ const passportGoogle = async () => {
                     method: 'google',
                     google: {
                         id: profile.id,
-                        name: profile.displayName,
-                        email: profile.emails[0].value
+                        displayName: profile.displayName,
+                        name: profile.name,
+                        emails: profile.emails,
+                        photos: profile.photos,
                     },
                     password: "ali"
                 });

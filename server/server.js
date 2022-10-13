@@ -29,11 +29,7 @@ app.get("/", (req, res) => {
   res.send("Hi");
 })
 
-app.get("/auth/logout", (req, res) => {
-  req.session.destroy(function (err) {
-    res.redirect('/login'); //Inside a callback… bulletproof!
-  });
-});
+
 
 MongoDbConnection();
 passportGoogle();
