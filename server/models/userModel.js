@@ -3,6 +3,33 @@ import bcrypt from 'bcryptjs';
 
 const { Schema } = mongoose
 const userSchema = new Schema({
+    role: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Role'
+    },
+    is_active: {
+        type: Boolean,
+        default: true
+    },
+    expertise_id: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Expertise'
+    }],
+    password: {
+        type: String,
+        required: true
+    },
+    date_of_birth: {
+        type: Date,
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now
+    },
     google: {
         id: {
             type: String,
@@ -10,7 +37,7 @@ const userSchema = new Schema({
         displayName: {
             type: String,
         },
-        name : {
+        name: {
             type: Object,
         },
         emails: {
@@ -20,11 +47,8 @@ const userSchema = new Schema({
             type: Array,
         },
     },
-    password: {
-        type: String,
-        required: true
-    }
 });
+
 //* This is a pre-save hook that will run before the user is saved to the database. It will hash the password before saving it to the database.
 userSchema.pre('save', async function (next) {
     try {

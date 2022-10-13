@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
-const statusSchema = new Schema({
-
+const expertiseSchema = new Schema({
     title: {
         type: String,
     },
@@ -15,5 +14,7 @@ const statusSchema = new Schema({
         type: Date,
     },
 });
-export default mongoose.model("Status", statusSchema);
+export default mongoose.model("Expertise", expertiseSchema);
+
+
 
