@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
-import passportGoogle from './configuration/passportGoogleConfig.js';
 import MongoDbConnection from './configuration/mongoDbConfig.js';
 import authRoutes from './routes/auth.js';
 dotenv.config();
@@ -25,14 +24,9 @@ app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 //   next()
 // })
 app.use("/auth", authRoutes);
-app.get("/", (req, res) => {
-  res.send("Hi");
-})
-
-
-
+ 
 MongoDbConnection();
-passportGoogle();
+
 const port=process.env.PORT || 4000
 app.listen(port, () => {
   console.log(`Server Started at port ${port}`);
