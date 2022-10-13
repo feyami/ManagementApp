@@ -8,22 +8,22 @@ const teamSchema = new Schema({
     title: {
         type: String,
     },
-    expertise_id: [{
+    skills: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Expertise'
+        ref: 'Skill'
     }],
     description: {
         type: String,
     },
-    leads_id: [{
+    leads: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    members_id: [{
+    members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    creator_id: {
+    creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },

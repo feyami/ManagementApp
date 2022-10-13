@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
-const expertiseSchema = new Schema({
+const skillSchema = new Schema({
     title: {
         type: String,
     },
@@ -14,7 +14,7 @@ const expertiseSchema = new Schema({
         type: Date,
     },
 });
-export default mongoose.model("Expertise", expertiseSchema);
+export default mongoose.model("Skill", skillSchema);
 
 
 

@@ -10,27 +10,27 @@ const projectSchema = new Schema({
         description: {
             type: String,
         },
-        teams_id: [{
+        teams: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Team'
         }],
-        leads_id: [{
+        leads: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }],
-        members_id: [{
+        members: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }],
-        section_id: [{
+        sections: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Section'
         }],
-        status_id: {
+        status: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Status'
         },
-        creator_id: {
+        creator: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },

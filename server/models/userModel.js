@@ -11,9 +11,9 @@ const userSchema = new Schema({
         type: Boolean,
         default: true
     },
-    expertise_id: [{
+    skills: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Expertise'
+        ref: 'Skill'
     }],
     password: {
         type: String,

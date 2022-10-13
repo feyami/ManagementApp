@@ -7,34 +7,34 @@ const sectionSchema = new Schema({
     description: {
         type: String,
     },
-    status_id: {
+    status: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Status'
     },
     due_date: {
         type: Date,
     },
-    project_id: {
+    project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project'
     },
-    task_id: [{
+    tasks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Task'
     }],
-    team_id: [{
+    teams: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Team'
     }],
-    lead_id: [{
+    leads: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    member_id: [{
+    members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    creator_id: {
+    creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
