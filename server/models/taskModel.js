@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 const taskSchema = new Schema({
-     
+
     title: {
         type: String,
     },
@@ -9,27 +9,28 @@ const taskSchema = new Schema({
         type: String,
     },
     status: {
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'Status'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Status',
     },
     due_date: {
         type: Date,
     },
-    project: {
+    project
+        : {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Project'
+        ref: 'Project',
     },
     section: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Section'
+        ref: 'Section',
     },
     teams: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Team'
+        ref: 'Team',
     }],
     leads: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     }],
     members: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -37,7 +38,7 @@ const taskSchema = new Schema({
     }],
     creator: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     },
     created_at: {
         type: Date,

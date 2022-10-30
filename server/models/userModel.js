@@ -3,6 +3,34 @@ import bcrypt from 'bcryptjs';
 
 const { Schema } = mongoose
 const userSchema = new Schema({
+    
+    firstName: {
+        type: String,
+    },
+    lastName: {
+        type: String,
+    },
+    fullName: {
+        type: String,
+    },
+    phoneNumbers: [{
+        numberType: {
+            type: String,
+            enum: ['home','mobile','other']
+        },
+        number: {
+            type: String,
+        },
+    }],
+    addresses: [{
+        addressType: {
+            type: String,
+            enum: ['home','other']
+        },
+        address: {
+            type: String,
+        },
+    }],
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role'
@@ -17,7 +45,6 @@ const userSchema = new Schema({
     }],
     password: {
         type: String,
-        required: true
     },
     date_of_birth: {
         type: Date,
@@ -58,7 +85,7 @@ userSchema.pre('save', async function (next) {
         // generate salt
         const salt = await bcrypt.genSalt(10);
         // hash the password
-        const hashedPassword = await bcrypt.hash(this.password, salt);
+        const hashedPassword =  bcrypt.hash(this.password, salt);
         // replace plain text password with hashed password
         this.password = hashedPassword;
         next();
@@ -66,5 +93,16 @@ userSchema.pre('save', async function (next) {
         return next(error);
     }
 });
+
+//* This is a pre-save hook that will run before the user is saved to the database. It will join the first and last name to create a full name.
+userSchema.pre('save', async function (next) {
+    try {
+        this.fullName = `${this.firstName} ${this.lastName}`;
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 export default mongoose.model("User", userSchema);

@@ -3,7 +3,9 @@ import  googleAuth from "../controllers/googleAuth.js";
  
 const router = express.Router();
 router.get("/login/success", (req, res) => {
+   console.log("req.user", req.user);
     if (req.user) {
+     
       res.status(200).json({
         success: true,
         message: "successfull",

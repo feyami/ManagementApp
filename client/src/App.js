@@ -1,54 +1,42 @@
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { StyledEngineProvider } from "@mui/material/styles";
+import useSettings from "./hooks/useSettings";
+import { Toaster } from "react-hot-toast";
+import { useRoutes } from "react-router-dom";
  
-import "./app.css";
-import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
-import Login from "./pages/Login";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import routes from "./routes";
+import { myTheme } from "./theme";
+
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const allPages = useRoutes(routes);
+  const {
+    settings
+  } = useSettings();
 
-  useEffect(() => {
-    const getUser = () => {
-      fetch("http://localhost:4000/auth/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!");
-        })
-        .then((resObject) => {
-          setUser(resObject.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getUser();
-  }, []);
+  // App theme
+  const appTheme = myTheme({
+    theme: settings.theme,
+    direction: settings.direction,
+    responsiveFontSizes: settings.responsiveFontSizes
+  }); 
 
-  return (
-    <BrowserRouter>
-      <div>
-      <Navbar user={user} /> 
-      <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/" /> : <Login />}
-          />
-           
-        </Routes>
-      </div>
-    </BrowserRouter>
-  );
+  // toaster options
+  const toasterOptions = {
+    style: {
+      fontWeight: 500,
+      fontFamily: "'Montserrat', sans-serif"
+    }
+  };
+  return <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={appTheme}>
+         
+          <CssBaseline />
+          <Toaster toastOptions={toasterOptions} />
+          {allPages}
+       
+      </ThemeProvider>
+    </StyledEngineProvider>;
 };
 
 export default App;

@@ -1,4 +1,4 @@
-import SkillSchema from "../models/skillModel";
+import SkillSchema from "../models/skillModel.js";
 
 export const getSkills = async (req, res) => {
     try {

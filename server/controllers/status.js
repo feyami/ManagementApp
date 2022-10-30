@@ -1,4 +1,4 @@
-import StatusSchema from "../models/statusModel";
+import StatusSchema from "../models/statusModel.js";
 
 export const getStatuses = async (req, res) => {
     try {

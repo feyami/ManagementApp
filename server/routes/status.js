@@ -1,11 +1,11 @@
 import express from "express";
-import { getStatuss, getStatus, createStatus, updateStatus, deleteStatus } from "../controllers/Status.js";
+import { getStatuses, getStatus, createStatus, updateStatus, deleteStatus } from "../controllers/Status.js";
  
 const router = express.Router();
 
 
  
-router.get('/', getStatuss);
+router.get('/', getStatuses);
 router.get('/:id', getStatus);
 router.post('/' , createStatus);
 router.patch('/:id', updateStatus);

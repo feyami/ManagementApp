@@ -9,9 +9,11 @@ const skillSchema = new Schema({
     },
     created_at: {
         type: Date,
+        default: Date.now,
     },
     updated_at: {
         type: Date,
+        default: Date.now,
     },
 });
 export default mongoose.model("Skill", skillSchema);

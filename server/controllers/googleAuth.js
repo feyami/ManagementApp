@@ -15,10 +15,7 @@ const passportGoogle = async () => {
     },
 
         async (accessToken, refreshToken, profile, done) => {
-            console.log("profile", profile);
-            console.log("accessToken", accessToken);
-            console.log("refreshToken", refreshToken);
-            console.log("done", done);
+           
             try {
                 //* check if user already exists in our own db by user route
 
@@ -32,7 +29,7 @@ const passportGoogle = async () => {
                 // if user does not exist create a new user 
                 console.log('Creating new user...');
                 const newUser = new userSchema({
-                    method: 'google',
+                    
                     google: {
                         id: profile.id,
                         displayName: profile.displayName,

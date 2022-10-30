@@ -10,17 +10,19 @@ const projectSchema = new Schema({
         description: {
             type: String,
         },
+        startDate: {
+            type: Date,
+        },
+        endDate: {
+            type: Date,
+        },
+        customer: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Customer'
+        }],
         teams: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Team'
-        }],
-        leads: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }],
-        members: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
         }],
         sections: [{
             type: mongoose.Schema.Types.ObjectId,
@@ -29,6 +31,9 @@ const projectSchema = new Schema({
         status: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Status'
+        },
+        note: {
+            type: String,
         },
         creator: {
             type: mongoose.Schema.Types.ObjectId,

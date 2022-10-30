@@ -1,4 +1,4 @@
-import TaskSchema from '../models/taskModel';
+import TaskSchema from '../models/taskModel.js';
 
 export const getTasks = async (req, res) => {
     try {

@@ -1,4 +1,4 @@
-import SectionScheme from '../models/section';
+import SectionScheme from '../models/sectionModel.js';
 
 export const getSections = async (req, res) => {
     try {

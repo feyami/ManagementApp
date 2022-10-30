@@ -1,4 +1,4 @@
-import TeamSchema from '../models/teamModel';
+import TeamSchema from '../models/teamModel.js';
 
 export const getTeams = async (req, res) => {
     try {
