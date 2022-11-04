@@ -1,5 +1,5 @@
 import express from "express";
-import { getUsers, getUser, createUser, updateUser, deleteUser } from "../controllers/user.js";
+import { getUsers, getUser, createUser, updateUser, deleteUser,generateRandomData } from "../controllers/user.js";
  
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.get('/:id', getUser);
 router.post('/' , createUser);
 router.patch('/:id', updateUser);
 router.delete('/:id', deleteUser);
+router.get('/getSpecific/generateRandomData', generateRandomData);
 
 
 export default router;

@@ -1,33 +1,15 @@
 import express from "express";
-import  googleAuth from "../controllers/googleAuth.js";
+import  googleAuth from "../controllers/auth/googleAuth.js";
+import {loginSuccess,loginFailed,logout}   from "../controllers/auth/auth.js";
+
  
 const router = express.Router();
-router.get("/login/success", (req, res) => {
-   console.log("req.user", req.user);
-    if (req.user) {
-     
-      res.status(200).json({
-        success: true,
-        message: "successfull",
-        user: req.user,
-        //   cookies: req.cookies
-      });
-    }
-  });
-  
-  router.get("/login/failed", (req, res) => {
-    res.status(401).json({
-      success: false,
-      message: "Error when login",
-    });
-  });
-  
-  router.get("/logout", (req, res) => {
-    req.session.destroy(function (err) {
-      res.redirect(process.env.CLIENT_URL);
-    });
-  });
 
-router.use("/google", googleAuth);
+router.get('/google', googleAuth);
+router.get('/google/callback', googleAuth);
+
+router.get("/login/success", loginSuccess);
+router.get("/login/failed", loginFailed);
+router.get("/logout", logout);
 
 export default router;

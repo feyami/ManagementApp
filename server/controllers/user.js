@@ -1,5 +1,38 @@
 import UserSchema from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
+import { faker } from '@faker-js/faker/locale/en_US';
+
+//*Generate random data from UserSchema
+export const generateRandomData = async (req, res) => {
+    try {
+        const user = await UserSchema.create({
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            phoneNumbers: [{ numberType: faker.helpers.arrayElement(['home', 'mobile', 'other']), number: faker.phone.phoneNumber() }, { numberType: faker.helpers.arrayElement(['home', 'mobile', 'other']), number: faker.phone.phoneNumber() }],
+            addresses: [{ addressType: faker.helpers.arrayElement(['home', 'other']), address: faker.address.streetAddress() }, { addressType: faker.helpers.arrayElement(['home', 'other']), address: faker.address.streetAddress() }],
+            role: faker.helpers.arrayElement(['admin', 'user']),
+            is_active: true,
+            skills: [],
+            password: faker.internet.password(),
+            date_of_birth: faker.date.past(),
+            google: {
+                id: faker.datatype.uuid(),
+                displayName: faker.name.findName(),
+                name: {
+                    familyName: faker.name.lastName(),
+                    givenName: faker.name.firstName(),
+                    middleName: faker.name.firstName()
+                },
+                emails: [{ value: faker.internet.email() }],
+                photos: [{ value: faker.image.avatar() }]
+            }
+        });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 
 
 

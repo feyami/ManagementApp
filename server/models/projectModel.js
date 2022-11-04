@@ -16,21 +16,29 @@ const projectSchema = new Schema({
         endDate: {
             type: Date,
         },
-        customer: [{
+        customer: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Customer'
-        }],
-        teams: [{
+        },
+        teams: {
+            teamName: {
+               name: {
+                     type: String,
+                },
+                members: [{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'User'
+                }]
+            }
+        } ,
+        tasks: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Team'
+            ref: 'Task'
         }],
-        sections: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Section'
-        }],
+        
         status: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Status'
+            type: String,
+            enum: ["Pending", "Waiting for Approval","In Progress", "Completed","Deleted"],
         },
         note: {
             type: String,

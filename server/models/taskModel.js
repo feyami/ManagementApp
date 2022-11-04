@@ -9,33 +9,15 @@ const taskSchema = new Schema({
         type: String,
     },
     status: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Status',
+        type: String,
+        enum: ["pending", "ongoing", "completed","deleted"],
     },
-    due_date: {
+    startDate: {
         type: Date,
     },
-    project
-        : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Project',
+    endDate: {
+        type: Date,
     },
-    section: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Section',
-    },
-    teams: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Team',
-    }],
-    leads: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    }],
-    members: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -46,6 +28,6 @@ const taskSchema = new Schema({
     updated_at: {
         type: Date,
     },
-});
+}, { timestamps: true });
 export default mongoose.model("Task", taskSchema);
 

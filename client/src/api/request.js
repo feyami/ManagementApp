@@ -1,5 +1,5 @@
 import jwt_decode from 'jwt-decode'
-
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 function parseData(data) {
   const formData = new FormData()
   for (let [key, value] of Object.entries(data)) {
@@ -19,13 +19,13 @@ function request(url, data = false, method = 'GET', type = 'JSON') {
     }
     // console.log(options);
     // console.log(process.env.REACT_APP_API_URL_PREFIX + url);
-    console.log(data)
+    
     //method === 'POST'&&console.log(options.body)
-    const response = await fetch('http://localhost:4000' + url, options)
+    const response = await fetch(BACKEND_URL + url, options)
 
     //method === 'POST'&&console.log(response)
     const result = await response.json()
-    console.log(result)
+     
     //method === 'POST'&&console.log(result)
     if (result.token) {
       localStorage.setItem('user', JSON.stringify(result.token))

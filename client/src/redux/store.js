@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import themeSlice from "./features/theme/themeSlice";
 import counterReducer from "./features/counter";
-//import authReducer from "../redux/features/auth/authSlice";
+import authReducer from "../redux/features/auth/authSlice";
 import userReducer from "./features/user/userSlice";
 import contactReducer from "./features/contact/contactSlice";
 import customerReducer from "./features/customer/customerSlice";
@@ -10,7 +10,7 @@ export const store = configureStore({
     reducer: {
         theme: themeSlice,
         counter: counterReducer,
-        // auth: authReducer,
+        auth: authReducer,
         user: userReducer,
         contact: contactReducer,
         customer: customerReducer,

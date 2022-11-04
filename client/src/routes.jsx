@@ -1,6 +1,6 @@
-//import AuthGuard from 'components/authentication/AuthGuard';
-//import GuestGuard from 'components/authentication/GuestGuard';
-import DashboardLayout from "./components/Layouts/DashboardLayout";
+import {AuthorizedRoute, GuestRoute, AdminRoute} from './hooks/authentication/Guard';
+ 
+import Layout from "./components/Layouts/Layout";
 import LoadingScreen from "./components/LoadingScreen";
 import { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
@@ -11,9 +11,9 @@ const Loadable = (Component) => (props) =>
       <Component {...props} />
     </Suspense>
   );
-
+  const Error = Loadable(lazy(() => import("./pages/error")));
 //const UserProfile = Loadable(lazy(() => import("./pages/UserProfile")));
-
+const Login = Loadable(lazy(() => import("./pages/auth/Login")));
 const ContactList = Loadable(
   lazy(() => import("./pages/contactManagement/ContactList"))
 );
@@ -32,6 +32,10 @@ const ProjectList = Loadable(
 const AddProject = Loadable(
   lazy(() => import("./pages/projectManagement/AddProject"))
 );
+const ProjectDetail = Loadable(
+  lazy(() => import("./pages/projectManagement/ProjectDetail"))
+);
+
 const Test = Loadable(lazy(() => import("./pages/Test")));
 //const UserGrid = Loadable(lazy(() => import("./pages/userManagement/UserGrid")));
 //const AddNewUser = Loadable(lazy(() => import("./pages/userManagement/AddNewUser")));
@@ -42,11 +46,19 @@ const routes = [
     element: <Navigate to="dashboard" />, 
   },
   {
+    path: "login",
+    element: (
+       <GuestRoute>
+        <Login />
+     </GuestRoute>
+    ),
+  },
+  {
     path: "dashboard",
     element: (
-      //<AuthGuard>
-      <DashboardLayout />
-      //</AuthGuard>
+       <AuthorizedRoute>
+      <Layout />
+       </AuthorizedRoute>
     ),
     children: [
        
@@ -63,21 +75,35 @@ const routes = [
       },
       {
         path: "customer-add",
-        element: <AddCustomer />,
+        element:  <AddCustomer /> ,
       },
       {
         path: "project-list",
-        element: <ProjectList />,
+        element:
+        <ProjectList/>
+        
+      },
+      {
+        path: "project-detail",
+        element:
+        <ProjectDetail/>
+        
       },
       {
         path: "project-add",
-        element: <AddProject/>,
+        element:
+          <AddProject/>
+          ,
       },
       {
         path: "test",
-        element: <Test />, 
+        element: ( <AdminRoute><Test /></AdminRoute>), 
             },
     ],
+  },
+  {
+    path: "/error",
+    element: <Error />,
   },
 ];
 export default routes;

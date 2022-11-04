@@ -11,7 +11,7 @@ import { useState,useEffect } from "react";
 import AddProject from "../../pages/projectManagement/AddProject"; 
 import { useSelector, useDispatch } from "react-redux";
 import {getProjects} from "../../redux/features/project/projectSlice";
-
+import { useNavigate } from "react-router-dom";
  
 
 const TopAreaWrapper = styled(Card)(({
@@ -59,29 +59,22 @@ const ProjectList = () => {
    
   useTitle("Project List");
   const [value, setValue] = useState("all");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+   
   const downSM = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.project.projects);
-const [editProject, setEditProject] = useState(null);
-
+ 
+const navigate = useNavigate();
 
  useEffect(() => {
     dispatch(getProjects()); 
-  }, [dispatch, isModalOpen]);
-
-
-const handleChangeModalOpen = () => {
-    setIsModalOpen(!isModalOpen);
-};  
-    
-
+  }, [dispatch]);
+ 
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
-
-  
+ 
   const tabItems = [{
     title: "All",
     amount: projects.length,
@@ -99,12 +92,6 @@ const handleChangeModalOpen = () => {
     amount: ""
   }];
 
- 
-
-
- 
-
- 
   return <Box pt={2} pb={4}>
       <TopAreaWrapper>
         <Box>
@@ -137,17 +124,17 @@ const handleChangeModalOpen = () => {
             maxWidth: downSM ? "100%" : 270,
             marginBottom: downSM ? 1 : 0
           }} />
-            <Button fullWidth={downSM} variant="contained" startIcon={<Add />} onClick={() => setIsModalOpen(true)} sx={{
+            <Button fullWidth={downSM} variant="contained" startIcon={<Add />} onClick={() => navigate("/dashboard/project-add")} sx={{
             fontSize: 12
           }}>
               Create a project
             </Button>
-            <AddProject open={isModalOpen} setOpenModal={setIsModalOpen} edit={false} data={editProject}/>
+          
           </FlexBox>
         </Grid>
 
         {projects.map((project, index) => <Grid item xs={12} sm={6} md={4} key={index}>
-            <ProjectCard project={project} setIsModalOpen={setIsModalOpen}  setEditProject={setEditProject} />
+            <ProjectCard project={project}    />
           </Grid>)}
        
       </Grid>

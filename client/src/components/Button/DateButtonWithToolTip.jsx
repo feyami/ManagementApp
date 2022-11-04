@@ -19,7 +19,7 @@ export const CheckDueDateWithToolTip = ({ date,isWithTime, ...props }) => {
     }
 
     export const CheckPassedDateWithToolTip = ({ date,isWithTime, ...props }) => {
-        console.log("date",date);
+        
         const { difference, isStated, text, formattedDate, formattedDateWithTime } = checkPassedDate(date);
          
         return (

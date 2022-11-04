@@ -13,6 +13,7 @@ import {
   Select,
   styled,
   InputBase,
+  Divider,
 } from "@mui/material";
 import AddIconButton from "../../components/Button/AddIconButton";
 import DarkTextField from "../../components/textField/DarkTextField";
@@ -30,23 +31,7 @@ import {createProject, updateProject} from "../../redux/features/project/project
 import dayjs from 'dayjs'; 
 import {useLocation, useNavigate} from 'react-router-dom';
 
-const StyledModalCard = styled(Card)(({ theme }) => ({
-  top: "50%",
-  left: "50%",
-  maxWidth: 700,
-  minWidth: 300,
-  position: "absolute",
-  padding: "1.5rem",
-  boxShadow: theme.shadows[2],
-  transform: "translate(-50%, -50%)",
-  width: "100%",
-  [theme.breakpoints.down("sm")]: {
-    "& .main-form": {
-      height: 200,
-      overflow: "auto",
-    },
-  },
-}));
+ 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   fontSize: 12,
   fontWeight: 500,
@@ -68,23 +53,22 @@ const StyledSelect = styled(Select)(({ theme }) => ({
   },
 }));
 
-const CreateProject = ({ open, onClose, setOpenModal, data, edit }) => {
-  
+const CreateProject = ({setOpenModal, edit }) => {
+  const location = useLocation();
+  let projectForEdit=location.state;
   const dispatch = useDispatch();
   const theme = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
-
-  let initialValues = {
-    title: data?.title || "",
-    description: data?.description || "",
-    startDate: data?.startDate || dayjs(Date.now()),
-    endDate: data?.endDate || dayjs(Date.now()),
-     
-     
-    customer: data?.customer || [],
-    file: data?.file || [],
-    note: data?.notes || "",
+  
+  let initialValues =  {
+    title: projectForEdit?.title || "",
+    description: projectForEdit?.description || "",
+    startDate: projectForEdit?.startDate ||  dayjs(Date.now()),
+    endDate:projectForEdit?.endDate ||  dayjs(Date.now()),
+    customer:projectForEdit?.customer || [],
+    file: projectForEdit?.file ||[],
+    note:projectForEdit?.note || "",
   };
 useEffect(() => {
     dispatch(getCustomersCompanyNames());
@@ -105,11 +89,12 @@ useEffect(() => {
   });
   const { values, errors, touched, handleChange, handleSubmit, resetForm } =
     useFormik({
-      initialValues,
+    initialValues,
       validationSchema: fieldValidationSchema,
-      onSubmit: async (values) => {
-        if (edit) {
-          await dispatch(updateProject(values));
+      onSubmit:  (values) => {
+        if (projectForEdit) {
+          console.log("values",values);
+           dispatch(updateProject({id:projectForEdit._id,values}))
         } else {
           dispatch(createProject(values));
         }
@@ -132,11 +117,18 @@ useEffect(() => {
       setSelectedFile(event.target.files[0])
       values.file = event.target.files[0]
     }
+     
+  
   return (
-    <Modal open={open} onClose={() => setOpenModal(false)}>
-      <StyledModalCard>
-        
-        <H3>{edit ? "Edit Product" : "Add New Customer"}</H3>
+     
+      <Card sx={{
+        padding: "1.5rem",
+        pb: "4rem",
+      }}>
+        <FlexBox justifyContent="center" alignItems="center" margin={2}>
+        <H3 >{edit ? "Edit Product" : "Add New Project"}</H3>
+</FlexBox>
+        <Divider/>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2} className="main-form">
             <Grid item sm={6} xs={12}>
@@ -155,6 +147,7 @@ useEffect(() => {
               <StyledSelect
                 fullWidth
                 name="customer"
+                defaultValue={values.customer._id}
                 value={customers._id}
                 onChange={handleChange}
                 error={Boolean(errors.customer && touched.customer)}
@@ -174,7 +167,7 @@ useEffect(() => {
               <H6 mb={1}>Start Date</H6>
               <DesktopDatePicker
           name="startDate"
-          value={selectedStartDate}
+          value={values.startDate}
           onChange={handleChangeStartDate}
           renderInput={(params) => <DarkTextField {...params} />}
         />
@@ -184,7 +177,7 @@ useEffect(() => {
               <H6 mb={1}>End Date</H6>
               <DesktopDatePicker
           name="endDate"
-          value={selectedEndDate}
+          value={values.endDate}
           onChange={handleChangeEndDate}
           renderInput={(params) => <DarkTextField {...params} />}
         />
@@ -298,8 +291,8 @@ useEffect(() => {
             
           </Stack>
         </Box>
-      </StyledModalCard>
-    </Modal>
+      </Card>
+    
   );
 };
 

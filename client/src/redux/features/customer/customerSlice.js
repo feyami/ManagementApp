@@ -164,7 +164,7 @@ export const customerSlice = createSlice({
             state.isSuccess = true;
             state.customers = action.payload;
             state.message = action.payload.message;
-            console.log("action.payload", action.payload);
+            
         },
         [getCustomersCompanyNames.rejected]: (state, action) => {
             state.isLoading = false;

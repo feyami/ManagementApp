@@ -32,8 +32,9 @@ const userSchema = new Schema({
         },
     }],
     role: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Role'
+        type: String,
+        enum: ['admin','user'],
+        default: 'user'
     },
     is_active: {
         type: Boolean,
@@ -48,14 +49,6 @@ const userSchema = new Schema({
     },
     date_of_birth: {
         type: Date,
-    },
-    created_at: {
-        type: Date,
-        default: Date.now
-    },
-    updated_at: {
-        type: Date,
-        default: Date.now
     },
     google: {
         id: {
@@ -74,7 +67,7 @@ const userSchema = new Schema({
             type: Array,
         },
     },
-});
+}, { timestamps: true });
 
 //* This is a pre-save hook that will run before the user is saved to the database. It will hash the password before saving it to the database.
 userSchema.pre('save', async function (next) {

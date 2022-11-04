@@ -56,6 +56,8 @@ export const createCustomer = async (req, res) => {
 export const updateCustomer = async (req, res) => { 
     const { id } = req.params;
     const customer = req.body;
+    console.log("customer", customer);
+    console.log("id", id);
     if (!CustomerSchema.findById(id)) {
         return res.status(404).json({ message: "Customer not found" });
     }

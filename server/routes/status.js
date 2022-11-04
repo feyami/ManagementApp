@@ -1,5 +1,5 @@
 import express from "express";
-import { getStatuses, getStatus, createStatus, updateStatus, deleteStatus } from "../controllers/Status.js";
+import { getStatuses, getStatus, createStatus, updateStatus, deleteStatus } from "../controllers/status.js";
  
 const router = express.Router();
 

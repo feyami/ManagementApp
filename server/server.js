@@ -14,16 +14,32 @@ import MongoStore from 'connect-mongo';
 dotenv.config();
 const app = express(); 
 
+// app.use(
+//  cookieSession({
+//   name: 'session',
+//   keys: [process.env.COOKIE_KEY],
+//   maxAge: 24 * 60 * 60 * 1000, // 24 hours
+//   // store: MongoStore.create({
+//   //   mongoUrl: process.env.MONGO_URI, 
+//   //   ttl: 24 * 60 * 60, // 1 day
+//   // })
+//   })
+// );
 app.use(
   session({
-    secret: process.env.SECRET,
+    secret: process.env.COOKIE_KEY,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
     store: MongoStore.create({
-      mongoUrl: 'mongodb+srv://fcom:asdf1234@cluster0.qluokjc.mongodb.net/xxx?retryWrites=true&w=majority',
-      ttl: 12 * 60 * 60,
-    })
-}));
+      mongoUrl: process.env.MONGO_URI,
+      ttl: 24 * 60 * 60, // 1 day
+    }),
+  })
+)
+
 // Middleware
 app.use(passport.initialize());
 app.use(passport.session());

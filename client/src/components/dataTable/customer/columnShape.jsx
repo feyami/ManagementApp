@@ -2,7 +2,7 @@ import { Edit } from "@mui/icons-material";
 import { IconButton, Divider } from "@mui/material";
 import StyledAvatar from "../../StyledAvatar";
 import { useState } from "react";
-
+import {AuthorizedRoute, GuestRoute, AdminRoute, isAdmin, AdminComponent} from '../../../hooks/authentication/Guard';
 import { Small, Tiny, Large } from "../../Typography";
 import FlexBox from "../../Box/FlexBox";
 import { useNavigate } from "react-router-dom";
@@ -71,12 +71,13 @@ const columnShape = [{
     const navigate = useNavigate();
     const selectedRow = Object.keys(state.selectedRowIds).includes(row.id);
     return <>
-          <IconButton component="span" disableRipple onClick={()=>navigate("/dashboard/customer-add",{state:row.original})}>
-            <Edit sx={{
+ 
+          <IconButton   component="span" disableRipple onClick={()=>navigate("/dashboard/customer-add",{state:row.original})}>
+             <Edit sx={{
           color: selectedRow ? "primary.main" : "text.disabled"
-        }} />
+        }} /> 
           </IconButton>
-         
+          
         </>;
   }
 }];

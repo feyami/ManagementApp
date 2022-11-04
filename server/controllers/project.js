@@ -6,6 +6,7 @@ export const getProjects = async (req, res) => {
     try {
         const projects = await ProjectSchema.find().populate('customer')
         //.populate('teams').populate('leads').populate('members').populate('sections').populate('status').populate('creator');
+        
         res.status(200).json(projects);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -25,7 +26,7 @@ export const getProject = async (req, res) => {
 
 //* POST create project
 export const createProject = async (req, res) => {
-console.log("aa",req.body);
+ 
     const project = req.body;
     const newProject = new ProjectSchema(project);
     try {
@@ -40,6 +41,8 @@ console.log("aa",req.body);
 export const updateProject = async (req, res) => {
     const { id } = req.params;
     const project = req.body;
+     console.log("project", project);
+        console.log("id", id);
     if (!ProjectSchema.findById(id)) {
         return res.status(404).json({ message: "Project not found" });
     }

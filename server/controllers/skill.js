@@ -1,5 +1,7 @@
 import SkillSchema from "../models/skillModel.js";
 
+ 
+
 export const getSkills = async (req, res) => {
     try {
         const skills = await SkillSchema.find();

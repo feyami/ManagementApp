@@ -13,7 +13,7 @@ import team from './team.js';
 import user from './user.js';
 import auth from './auth.js';
 import generalValue from './generalValue.js';
-
+ 
 const router = Router();
 
 router.use('/contact', contact);
@@ -28,7 +28,7 @@ router.use('/team', team);
 router.use('/user', user);
 router.use('/auth', auth);
 router.use('/generalValue', generalValue);
-
+ 
 export default router;
 
 

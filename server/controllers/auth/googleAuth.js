@@ -1,17 +1,18 @@
 import dotenv from "dotenv";
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
-import userSchema from '../models/userModel.js';
+import userSchema from '../../models/userModel.js';
 import express from 'express'
 dotenv.config();
 
 const router = express.Router()
 
-const passportGoogle = async () => {
+export const passportGoogle = async () => {
+    console.log("aa",process.env.CLIENT_URL);
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "/auth/google/callback",
+        callbackURL: process.env.SERVER_URL+"/auth/google/callback"
     },
 
         async (accessToken, refreshToken, profile, done) => {
@@ -21,7 +22,6 @@ const passportGoogle = async () => {
 
 
                 let existingUser = await userSchema.findOne({ 'google.id': profile.id });
-                console.log("existingUser", existingUser);
                 // if user exists return the user 
                 if (existingUser) {
                     return done(null, existingUser);
@@ -58,9 +58,11 @@ const passportGoogle = async () => {
 passportGoogle();
 
 
-router.get('/', passport.authenticate('google', { scope: ['profile', 'email'] }));
+ 
 
-router.get("/callback",
+router.get("/google", passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/google/callback',
     passport.authenticate("google", {
         successRedirect: process.env.CLIENT_URL,
         failureRedirect: "/auth/login/failed",

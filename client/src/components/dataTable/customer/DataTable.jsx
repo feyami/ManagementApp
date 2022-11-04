@@ -42,9 +42,9 @@ const DataTable = ({
 }) => {
   const theme = useTheme();
   const columns = useMemo(() => columnShape, []);
-  console.log("columns", columns);
+   
   const tableData = useMemo(() => data, [data]);
-  console.log("tableData", tableData);
+  
   const {
     getTableProps,
     getTableBodyProps,

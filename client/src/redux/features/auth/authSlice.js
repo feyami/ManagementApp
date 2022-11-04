@@ -1,45 +1,65 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
-const name = JSON.parse(localStorage.getItem("name"));
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = `${BACKEND_URL}/auth/`;
+
 
 const initialState = {
-  isLoggedIn: false,
-  name: name ? name : "",
-  user: {
-    name: "",
-    email: "",
-    phone: "",
-    bio: "",
-    photo: "",
-  },
+  isAuthenticated: false,
+  isInitialized: false,
+  user: null
 };
 
-const authSlice = createSlice({
+export const loginSuccess = createAsyncThunk(
+  "auth/loginSuccess",
+  async (user, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${API_URL}login/success`, {
+        withCredentials: true,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true
+        }
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    SET_LOGIN(state, action) {
-      state.isLoggedIn = action.payload;
-    },
-    SET_NAME(state, action) {
-      localStorage.setItem("name", JSON.stringify(action.payload));
-      state.name = action.payload;
-    },
-    SET_USER(state, action) {
-      const profile = action.payload;
-      state.user.name = profile.name;
-      state.user.email = profile.email;
-      state.user.phone = profile.phone;
-      state.user.bio = profile.bio;
-      state.user.photo = profile.photo;
-    },
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.user = null;
+    }
   },
+  extraReducers: {
+    [loginSuccess.fulfilled]: (state, action) => {
+      state.isAuthenticated = true;
+       
+      state.user = action.payload.user;
+    },
+    [loginSuccess.rejected]: (state, action) => {
+      state.isAuthenticated = false;
+      
+      state.user = null;
+    }
+  }
 });
 
-export const { SET_LOGIN, SET_NAME, SET_USER } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
-export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-export const selectName = (state) => state.auth.name;
+export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectUser = (state) => state.auth.user;
 
 export default authSlice.reducer;
+
+
+

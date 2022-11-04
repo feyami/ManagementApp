@@ -1,7 +1,7 @@
 import { Box, Divider, List, ListItem, ListItemButton, styled, Tooltip, useMediaQuery } from "@mui/material";
-import MyAccordion from "../../components/accordion/MyAccordion";
-import FlexBox from "../../components/Box/FlexBox";
-import { H3, Large } from "../../components/Typography";
+import MyAccordion from "../accordion/MyAccordion";
+import FlexBox from "../Box/FlexBox";
+import { H3, Large } from "../Typography";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ScrollBar from "simplebar-react";
@@ -139,7 +139,7 @@ const DashboardSideBar = ({
     closeMobileSideBar();
   }; // main menus content
 
-{console.log(categoryMenus)};
+ 
   const mainSideBarContent = <List sx={{
     height: "100%"
   }}>

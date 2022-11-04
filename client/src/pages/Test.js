@@ -13,7 +13,7 @@
    
  
    const handleClearFilter = () => {
-     console.log("clear filter");
+   
    };
  
    useEffect(() => {

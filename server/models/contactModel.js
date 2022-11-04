@@ -78,8 +78,8 @@ contactSchema.pre('save', async function (next) {
 
 
 const contactfactory = factory(contactSchema)
-const mock = contactfactory.generate();
-console.log(mock);
+// const mock = contactfactory.generate();
+// console.log(mock);
 export default mongoose.model('Contact', contactSchema);
 
 

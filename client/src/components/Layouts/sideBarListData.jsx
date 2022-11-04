@@ -8,6 +8,7 @@ import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import AddToQueueOutlinedIcon from '@mui/icons-material/AddToQueueOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 const index = [
   {
     title: "Home",
@@ -126,12 +127,12 @@ const index = [
   },{
     title: "Team Management",
     Icon: GroupsOutlinedIcon,
-    path: "/dashboard/team-list",
+    path: "/dashboard/test",
     children: [
       {
         subTitle: "Teams",
         Icon: GroupsOutlinedIcon,
-        path: "/dashboard/project-list",
+        path: "/dashboard/test",
       },{
         subTitle: "Add Team",
         Icon: GroupAddOutlinedIcon,
@@ -160,6 +161,10 @@ const index = [
         path: "/dashboard/team-list",
       },
     ],
-  },
+  },{
+    title: "Project Management",
+    Icon: LogoutRoundedIcon,
+    path: "/dashboard/project-list",
+  }
 ];
 export default index;

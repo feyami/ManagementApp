@@ -1,8 +1,8 @@
 import { Box, styled } from "@mui/material";
 import { Fragment, useState } from "react";
 import { Outlet } from "react-router";
-
-import DashboardSidebar from "./DashboardSideBar"; // styled components
+import Navbar from "./NavBar.jsx";
+import DashboardSidebar from "./SideBar"; // styled components
 
 const Wrapper = styled(Box)(({
   theme,
@@ -40,7 +40,7 @@ const DashboardLayout = ({
 
       <Wrapper show={openSecondarySideBar}>
         <InnerWrapper>
-         
+         <Navbar/>
           {children || <Outlet />}
         </InnerWrapper>
       </Wrapper>

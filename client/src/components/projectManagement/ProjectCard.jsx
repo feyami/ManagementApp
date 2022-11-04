@@ -9,19 +9,16 @@ import ProjectCardMenu from "../../components/projectManagement/ProjectCardMenu"
 import {CheckDueDateWithToolTip, CheckPassedDateWithToolTip} from "../Button/DateButtonWithToolTip";
  
 const ProjectCard = ({
-  handleMoreClick,
-  project,
-  setIsModalOpen,
-  setEditProject
+   project, 
 }) => {
 
   const {title,description, customer, startDate, endDate, progress,teamMembers} = project;
-
-  const [projectMoreEl, setProjectMoreEl] = useState(null);
-  const handleProjectMoreOpen = event => {
-    setProjectMoreEl(event.currentTarget);
+console.log("project",project);
+  const [projectCardMenuClickedElement, setProjectCardMenuClickedElement] = useState(null);
+  const handleProjectCardMenuOpen = event => {
+    setProjectCardMenuClickedElement(event.currentTarget);
   };
-  const handleProjectMoreClose = () => setProjectMoreEl(null);
+  const handleProjectCardMenuClose = () => setProjectCardMenuClickedElement(null);
 
   return <Card sx={{
     padding: 2,
@@ -32,7 +29,7 @@ const ProjectCard = ({
         <CheckPassedDateWithToolTip date={startDate} isWithTime={false} />
         <IconButton sx={{
         padding: 0
-      }} onClick={handleProjectMoreOpen}>
+      }} onClick={handleProjectCardMenuOpen}>
           <MoreHoriz />
         </IconButton>
         
@@ -46,7 +43,7 @@ const ProjectCard = ({
     
         <H3 >{title}</H3>
         <H6 color="text.disabled" fontWeight={500} mt={0.5}>
-          {customer[0].companyName}
+          {customer?.companyName}
         </H6>
       </Box>
 </Tooltip>
@@ -68,7 +65,7 @@ const ProjectCard = ({
         }} />
         </FlexBox>
          
-        <ProjectCardMenu anchorEl={projectMoreEl} handleMoreClose={handleProjectMoreClose} project={project} setIsModalOpen={setIsModalOpen} setEditProject={setEditProject}/>
+        <ProjectCardMenu anchorElement={projectCardMenuClickedElement} handleProjectCardMenuClose={handleProjectCardMenuClose} project={project} />
         <CheckDueDateWithToolTip date={endDate} isWithTime={false}/>
        
         

@@ -1,45 +1,85 @@
 
 
 export const primary = {
-  100: "#D3F5FE",
-  200: "#A7E7FD",
-  300: "#7AD2FA",
-  400: "#59BCF5",
-  500: "#2499EF",
-  main: "#2499EF",
+  100:"#B2EBF2",
+  200:"#80DEEA",
+  300:"#4DD0E1",
+  400:"#26C6DA",
+  500:"#00BCD4",
+  600:"#00ACC1",
+  700:"#0097A7",
+  800:"#00838F",
+  900:"#006064",
+  A100:"#84FFFF",
+  A200:"#18FFFF",
+  A400:"#00E5FF",
+  A700:"#00B8D4",
+  main: "#00BCD4",
   light: "#D3F5FE",
-  dark: "#1A77CD",
-  // main: "#3f51b5",
-  // light: "#757de8",
+  dark: "#006064",
   red: "#FF6B93",
   purple: "#A798FF",
   yellow: "#FF9777"
 };
 export const secondary = {
-  100: "#F9F9F9",
-  200: "#ECEFF5",
-  300: "#E5EAF2",
-  // outline or border
-  400: "#94A4C4",
-  // text muted
-  500: "#1d2438",
-  // main text
-  main: "#1d2438",
-  // main text
-  light: "#F9F9F9",
+  100: "#EBF4F5",
+  200: "#D7E9EB",
+  300: "#ACC0C5",
+  400: "#75858B",
+  500: "#313a3e",
+  600: "#232E35",
+  700: "#18232C",
+  800: "#0F1923",
+  900: "#09121D",
+  main: "#313a3e",
+  light: "#5F6A6D",
+  dark: "#0F1923",
+
   red: "#FF6B93",
   purple: "#A798FF",
   yellow: "#FF9777"
 };
 export const error = {
-  main: "#FD396D"
+  100: "#FFE9D3",
+  200: "#FFCDA9",
+  300: "#FFAA7E",
+  400: "#FF895D",
+  500: "#FF5328",
+  600: "#DB351D",
+  700: "#B71C14",
+  800: "#930C0F",
+  900: "#7A0712",
+  main: "#FF5328",
+  light: "#FFE9D3",
+  dark: "#7A0712"
 };
 export const success = {
-  main: "#2CC5BD"
+  100: "#ECFCD4",
+  200: "#D6F9AB",
+  300: "#B4ED7E",
+  400: "#92DB5B",
+  500: "#63C42B",
+  600: "#49A81F",
+  700: "#328D15",
+  800: "#1F710D",
+  900: "#125E08",
+  main: "#63C42B",
+  light: "#ECFCD4",
+  dark: "#125E08"
+
 };
 export const warning = {
-  main: "#FFE91F",
-  dark: "#FFD600"
+  100: "#FFF5CD",
+  200: "#FFE89B",
+  300: "#FFD869",
+  400: "#FFC943",
+  500: "#FFAF05",
+  600: "#DB8F03",
+  700: "#B77102",
+  800: "#935601",
+  900: "#7A4300",
+  main: "#FFAF05",
+  dark: "#FFE89B"
 };
 export const info = {
   main: "#A798FF"
@@ -49,3 +89,5 @@ export const text = {
   secondary: secondary[400],
   disabled: secondary[300]
 };
+
+

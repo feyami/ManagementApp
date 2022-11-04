@@ -32,7 +32,7 @@ export const getProjects = createAsyncThunk(
        
         try {
             const response = await axios.get(API_URL);
-            console.log("getProjects response.data: ", response.message);
+             
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -79,8 +79,10 @@ export const getProjectsByCustomer = createAsyncThunk(
 export const updateProject = createAsyncThunk(
     "project/updateProject",
     async (data, { rejectWithValue }) => {
+        
         try {
-            const response = await axios.put(`${API_URL}${data.id}`, data);
+             
+            const response = await axios.put(`${API_URL}${data.id}`, data.values);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -186,12 +188,14 @@ export const projectSlice = createSlice({
         },
         [updateProject.pending]: (state) => {
             state.isLoading = true;
+            console.log("updateProject pending");
         },
         [updateProject.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.message = action.payload.message;
             toast.success(state.message);
+            console.log("updateProject fulfilled", action.payload);
         },
         [updateProject.rejected]: (state, action) => {
             state.isLoading = false;
