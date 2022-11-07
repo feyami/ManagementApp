@@ -6,6 +6,7 @@ import userReducer from "./features/user/userSlice";
 import contactReducer from "./features/contact/contactSlice";
 import customerReducer from "./features/customer/customerSlice";
 import projectReducer from "./features/project/projectSlice";
+import globalValues from "./features/globalValues";
 export const store = configureStore({
     reducer: {
         theme: themeSlice,
@@ -15,5 +16,6 @@ export const store = configureStore({
         contact: contactReducer,
         customer: customerReducer,
         project: projectReducer,
+        globalValues: globalValues
     }
 });

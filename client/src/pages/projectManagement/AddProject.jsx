@@ -30,7 +30,7 @@ import {getCustomersCompanyNames} from "../../redux/features/customer/customerSl
 import {createProject, updateProject} from "../../redux/features/project/projectSlice";
 import dayjs from 'dayjs'; 
 import {useLocation, useNavigate} from 'react-router-dom';
-
+import { ToastContainer, toast } from "react-toastify";
  
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   fontSize: 12,
@@ -93,18 +93,18 @@ useEffect(() => {
       validationSchema: fieldValidationSchema,
       onSubmit:  (values) => {
         if (projectForEdit) {
-          console.log("values",values);
-           dispatch(updateProject({id:projectForEdit._id,values}))
+          
+           dispatch(updateProject({id:projectForEdit._id,values})).then(()=>navigate("/dashboard/project-list"));
+        
         } else {
+          console.log("values", values);
           dispatch(createProject(values));
+         
         }
-        closeModel();
+        resetForm();
       }
     });
-    const closeModel = () => {
-      setOpenModal(false);
-      resetForm();
-    };
+    
     const handleChangeStartDate = (newValue) => {
       setSelectedStartDate(dayjs(newValue));
       values.startDate = dayjs(newValue);
@@ -120,11 +120,11 @@ useEffect(() => {
      
   
   return (
-     
+    
       <Card sx={{
         padding: "1.5rem",
         pb: "4rem",
-      }}>
+      }}><ToastContainer autoClose={2000} />
         <FlexBox justifyContent="center" alignItems="center" margin={2}>
         <H3 >{edit ? "Edit Product" : "Add New Project"}</H3>
 </FlexBox>
@@ -256,7 +256,7 @@ useEffect(() => {
             <Button
               fullWidth
               variant="outlined"
-              onClick={closeModel}
+              onClick={()=>navigate("/dashboard/project-list")}
               sx={{
                 width: 124,
                 fontSize: 12,
@@ -276,21 +276,13 @@ useEffect(() => {
                 fontSize: 12,
               }}
             >
-              Save
+               Save
             </Button>
            
           </FlexBox>
         </form>
 
-        <Box my={1}>
-          <Small>Team Leaders</Small>
-          <Stack direction="row" spacing={1} mt={1}>
-            <AddIconButton />
-            <Avatar alt="Feyami" src="" />
-            <Avatar alt="Hasan" src="" />
-            
-          </Stack>
-        </Box>
+       
       </Card>
     
   );

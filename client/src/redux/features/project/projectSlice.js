@@ -121,13 +121,13 @@ export const projectSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.message = action.payload.message;
-            toast.success(state.message);
+            toast.success("Project created successfully");
         },
         [createProject.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.message = action.payload.message;
-            toast.error(state.message);
+            toast.error("Project creation failed");
         },
         [getProjects.pending]: (state) => {
             state.isLoading = true;
@@ -194,14 +194,14 @@ export const projectSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.message = action.payload.message;
-            toast.success(state.message);
+            toast.success("Project updated successfully");
             console.log("updateProject fulfilled", action.payload);
         },
         [updateProject.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.message = action.payload.message;
-            toast.error(state.message);
+            toast.error("Project update failed");
         },
         [deleteProject.pending]: (state) => {
             state.isLoading = true;
@@ -210,20 +210,21 @@ export const projectSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.message = action.payload.message;
-            toast.success(state.message);
+            toast.success("Project deleted successfully");
         },
         [deleteProject.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.message = action.payload.message;
-            toast.error(state.message);
+            toast.error("Project deletion failed");
         },
     },
 });
 
 export const { resetProjectState } = projectSlice.actions;
 
-
+//export const selectProject = (state) => state.project.project;
+//export const selectProjects = (state) => state.project.projects;
 
 export default projectSlice.reducer;
 

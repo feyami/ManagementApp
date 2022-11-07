@@ -36,14 +36,7 @@ const IconWrapper = styled(Box)(({
   alignItems: "center",
   marginRight: "0.5rem"
 }));
-const TabListWrapper = styled(TabList)(({
-  theme
-}) => ({
-  [theme.breakpoints.down(700)]: {
-    order: 3,
-    marginTop: 1
-  }
-}));
+ 
 
 const ContactList = () => {
   // change navbar title
@@ -52,7 +45,7 @@ const ContactList = () => {
     t
   } = useTranslation();
    
-  const [openModal, setOpenModal] = useState(false);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tableData = useSelector((state) => state.contact.contacts);
