@@ -9,6 +9,7 @@ import AddToQueueOutlinedIcon from '@mui/icons-material/AddToQueueOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 const index = [
   {
     title: "Home",
@@ -162,9 +163,9 @@ const index = [
       },
     ],
   },{
-    title: "Project Management",
-    Icon: LogoutRoundedIcon,
-    path: "/dashboard/project-list",
-  }
+    title: "Chat",
+    Icon: ChatRoundedIcon,
+    path: "/dashboard/chat",
+  } 
 ];
 export default index;

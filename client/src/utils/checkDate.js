@@ -20,4 +20,15 @@ export const checkPassedDate = (date) => {
   const difference = nowDate.diff(getDate, "day");
   return { difference, isStated: difference > 0, text: (difference > 0 ? `Started ${difference} days ago ` : "Not Yet Started"), formattedDate: dayjs(getDate).format('LL'), formattedDateWithTime: dayjs(getDate).format('LLL') };
 };
+//* is message sent less than 24 hours retrn hours else return date 
+export const checkMessageDate = (date) => {
+  const getDate = dayjs(date);
+  const nowDate = dayjs(Date.now());
+  const differenceByDay = nowDate.diff(getDate, "day");
+   
+  const value=differenceByDay<=0?getDate.format('HH:mm'):getDate.format('LL');
+  return  value;
+}
 
+
+  

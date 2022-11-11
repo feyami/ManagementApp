@@ -21,15 +21,25 @@ const projectSchema = new Schema({
             ref: 'Customer'
         },
         teams: {
-            teamName: {
-               name: {
+            
+               title: {
                      type: String,
+                },
+                description: {
+                    type: String,
+                },
+                position: {
+                    type: Number,
+                },
+                lead: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'User'
                 },
                 members: [{
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'User'
                 }]
-            }
+            
         } ,
         tasks: [{
             type: mongoose.Schema.Types.ObjectId,
@@ -46,15 +56,9 @@ const projectSchema = new Schema({
         creator: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
-        },
-        created_at: {
-            type: Date,
-        },
-        updated_at: {
-            type: Date,
-        },
+        } 
 
-    });
+    }, { timestamps: true });
 
 
 export default mongoose.model("Project", projectSchema);

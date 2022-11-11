@@ -7,6 +7,10 @@ import { useNavigate } from "react-router-dom";
 import ScrollBar from "simplebar-react";
 import topMenuList from "./sideBarListData"; 
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import {useDispatch } from "react-redux";
+import {logout} from "redux/features/auth/authSlice";
+import {useCookies } from "react-cookie";
 // root component interface
 
 // custom styled components
@@ -93,6 +97,7 @@ const DashboardSideBar = ({
   
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [active, setActive] = useState("Home");
   const [activeSubMenuItem, setActiveSubMenuItem] = useState("");
   const [categoryMenus, setCategoryMenus] = useState([]);
@@ -139,6 +144,14 @@ const DashboardSideBar = ({
     closeMobileSideBar();
   }; // main menus content
 
+  const [cookies, setCookie, removeCookie] = useCookies(["connect.sid"]);
+
+ const handleLogout = () => {
+  removeCookie("connect.sid"); 
+   
+    dispatch(logout());
+  };
+
  
   const mainSideBarContent = <List sx={{
     height: "100%"
@@ -157,8 +170,15 @@ const DashboardSideBar = ({
           }} />
             </StyledListItemButton>
           </Tooltip>)}
+           <Divider/>
+           <StyledListItemButton disableRipple onClick={() => handleLogout()}>
+      <LogoutRoundedIcon/>
+      </StyledListItemButton>
       </ScrollBar>
-    </List>; // secondary side bars content
+    </List>;
+   
+
+      // secondary side bars content
 
   const secondarySideBarContent = <Fragment>
       <ListItem sx={{
@@ -187,6 +207,9 @@ const DashboardSideBar = ({
 
   if (downMd) {
     return <Fragment>
+      <StyledListItemButton disableRipple onClick={handleToggleBtn}>
+      <MenuIcon/>
+      </StyledListItemButton>
         <Box sx={{
         width: 60,
         height: "100%",

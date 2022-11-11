@@ -1,9 +1,14 @@
-import {AuthorizedRoute, GuestRoute, AdminRoute} from './hooks/authentication/Guard';
- 
+import {
+  AuthorizedRoute,
+  GuestRoute,
+  AdminRoute,
+} from "./hooks/authentication/Guard";
+
 import Layout from "./components/Layouts/Layout";
 import LoadingScreen from "./components/LoadingScreen";
 import { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
+ 
 
 const Loadable = (Component) => (props) =>
   (
@@ -11,7 +16,7 @@ const Loadable = (Component) => (props) =>
       <Component {...props} />
     </Suspense>
   );
-  const Error = Loadable(lazy(() => import("./pages/error")));
+const Error = Loadable(lazy(() => import("./pages/error")));
 //const UserProfile = Loadable(lazy(() => import("./pages/UserProfile")));
 const Login = Loadable(lazy(() => import("./pages/auth/Login")));
 const ContactList = Loadable(
@@ -35,37 +40,38 @@ const AddProject = Loadable(
 const ProjectDetail = Loadable(
   lazy(() => import("./pages/projectManagement/ProjectDetail"))
 );
-
+const Chat = Loadable(lazy(() => import("pages/chat/Chat")));
 const Test = Loadable(lazy(() => import("./pages/Test")));
+const Todo = Loadable(lazy(() => import("pages/Todo")));
 //const UserGrid = Loadable(lazy(() => import("./pages/userManagement/UserGrid")));
 //const AddNewUser = Loadable(lazy(() => import("./pages/userManagement/AddNewUser")));
 
 const routes = [
   {
     path: "/",
-    element: <Navigate to="dashboard" />, 
+    element: <Navigate to="dashboard" />,
   },
   {
     path: "login",
     element: (
-       <GuestRoute>
+      <GuestRoute>
         <Login />
-     </GuestRoute>
+      </GuestRoute>
     ),
   },
   {
     path: "dashboard",
     element: (
-       <AuthorizedRoute>
-      <Layout />
-       </AuthorizedRoute>
+      <AuthorizedRoute>
+        <Layout />
+      </AuthorizedRoute>
     ),
     children: [
-       
       {
         path: "contact-list",
-        element: <ContactList />,
-      },{
+        element: <AuthorizedRoute><ContactList /></AuthorizedRoute>,
+      },
+      {
         path: "contact-add",
         element: <AddContact />,
       },
@@ -75,30 +81,36 @@ const routes = [
       },
       {
         path: "customer-add",
-        element:  <AddCustomer /> ,
+        element: <AddCustomer />,
       },
       {
         path: "project-list",
-        element:
-        <ProjectList/>
-        
+        element: <ProjectList />,
       },
       {
         path: "project-detail",
-        element:
-        <ProjectDetail/>
-        
+        element: <ProjectDetail />,
       },
       {
         path: "project-add",
-        element:
-          <AddProject/>
-          ,
+        element: <AddProject />,
+      },
+      {
+        path: "chat",
+        element: <Chat />,
+      },
+      {
+        path: "Todo",
+        element: <Todo />,
       },
       {
         path: "test",
-        element: ( <AdminRoute><Test /></AdminRoute>), 
-            },
+        element: (
+          <AdminRoute>
+            <Test />
+          </AdminRoute>
+        ),
+      },
     ],
   },
   {

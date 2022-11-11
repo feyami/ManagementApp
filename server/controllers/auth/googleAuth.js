@@ -29,7 +29,9 @@ export const passportGoogle = async () => {
                 // if user does not exist create a new user 
                 console.log('Creating new user...');
                 const newUser = new userSchema({
-                    
+                    firstName: profile.name.givenName,
+                    lastName: profile.name.familyName,
+                    photo: profile.photos[0].value,
                     google: {
                         id: profile.id,
                         displayName: profile.displayName,

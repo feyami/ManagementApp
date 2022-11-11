@@ -33,6 +33,22 @@ export const generateRandomData = async (req, res) => {
     }
 }
 
+export const getUsersBySearch = async (req, res) => {
+    const keyword = req.query.search
+      ? {
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {};
+      try {
+    const users = await UserSchema.find(keyword).find({ _id: { $ne: req.user._id } });
+    res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+    };
 
 
 

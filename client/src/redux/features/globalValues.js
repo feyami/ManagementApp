@@ -1,10 +1,12 @@
 import { createSlice} from "@reduxjs/toolkit";
-import { contactSlice } from './contact/contactSlice';
+ 
+
 
 const initialState = {
 contact:null,
 customer:null,
-project:null
+project:null,
+chat:null
 };
 
 const globalValuesSlice = createSlice({
@@ -19,6 +21,9 @@ state.customer = action.payload;
 },
 setProject: (state, action) => {
 state.project = action.payload;
+},
+setChat: (state, action) => {
+state.chat = action.payload;
 },
 filterContactByGivenValue: (state, action) => {
 state.contact = state.contact.filter((contact) => {

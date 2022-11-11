@@ -55,8 +55,9 @@ export const accessChat = async (req, res) => {
   //@route           GET /api/chat/
   //@access          Protected
   export const fetchChats = async (req, res) => {
+    console.log("req.bodygggggggg", req.body); 
     try {
-      Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
+      Chat.find({ users: { $elemMatch: { $eq: req.body._id } } })
         .populate("users", "-password")
         .populate("groupAdmin", "-password")
         .populate("latestMessage")
@@ -69,8 +70,7 @@ export const accessChat = async (req, res) => {
           res.status(200).send(results);
         });
     } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
+      res.status(404).json({ message: error.message });
     }
   };
   
@@ -78,11 +78,12 @@ export const accessChat = async (req, res) => {
   //@route           POST /api/chat/group
   //@access          Protected
   export const createGroupChat = async (req, res) => {
-    if (!req.body.users || !req.body.name) {
+    console.log("req.body", req.body);
+    if (!req.body.users || !req.body.chatName) {
       return res.status(400).send({ message: "Please Fill all the feilds" });
     }
   
-    var users = JSON.parse(req.body.users);
+    var users = req.body.users;
   
     if (users.length < 2) {
       return res
@@ -90,14 +91,14 @@ export const accessChat = async (req, res) => {
         .send("More than 2 users are required to form a group chat");
     }
   
-    users.push(req.user);
+    //users.push(req.user);
   
     try {
       const groupChat = await Chat.create({
-        chatName: req.body.name,
+        chatName: req.body.chatName,
         users: users,
         isGroupChat: true,
-        groupAdmin: req.user,
+        groupAdmin: req.body.groupAdmin,
       });
   
       const fullGroupChat = await Chat.findOne({ _id: groupChat._id })

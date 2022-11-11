@@ -7,6 +7,9 @@ import contactReducer from "./features/contact/contactSlice";
 import customerReducer from "./features/customer/customerSlice";
 import projectReducer from "./features/project/projectSlice";
 import globalValues from "./features/globalValues";
+import chatSlicer from "./features/chat/chatSlice";
+import messageSlicer from "./features/chat/messageSlice";
+
 export const store = configureStore({
     reducer: {
         theme: themeSlice,
@@ -16,6 +19,9 @@ export const store = configureStore({
         contact: contactReducer,
         customer: customerReducer,
         project: projectReducer,
-        globalValues: globalValues
+        globalValues: globalValues,
+        chat: chatSlicer,
+        message: messageSlicer,
+
     }
 });

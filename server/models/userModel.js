@@ -13,6 +13,9 @@ const userSchema = new Schema({
     fullName: {
         type: String,
     },
+    photo: {
+        type: String,
+    },
     phoneNumbers: [{
         numberType: {
             type: String,

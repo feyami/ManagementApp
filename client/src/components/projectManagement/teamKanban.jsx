@@ -1,270 +1,239 @@
-import { Add, MoreHoriz } from "@mui/icons-material";
-import { AvatarGroup, Box, Button, Card, Grid, IconButton, LinearProgress } from "@mui/material";
-import AddIconButton from "../../components/Button/AddIconButton";
-import FlexBox from "../../components/Box/FlexBox";
-import { H3, H5, H6, Paragraph, Small } from "../../components/Typography";
-import StyledAvatar from "../../components/StyledAvatar";
-import { useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { useTranslation } from "react-i18next";
- 
-import { DroppableWrapper } from "./StyledComponent";
-const followers = [{
-  image: "/static/avatar/040-man-11.svg",
-  name: "Mr. Breast",
-  profession: "Product Designer",
-  following: true
-}, {
-  image: "/static/avatar/041-woman-11.svg",
-  name: "Ethan Drake",
-  profession: "UI Designer",
-  following: true
-}, {
-  image: "/static/avatar/042-vampire.svg",
-  name: "Selena Gomez",
-  profession: "Marketing Manager",
-  following: false
-}, {
-  image: "/static/avatar/043-chef.svg",
-  name: "Sally Becker",
-  profession: "UI Designer",
-  following: true
-}, {
-  image: "/static/avatar/044-farmer.svg",
-  name: "Dua Lipa",
-  profession: "Marketing Manager",
-  following: false
-}, {
-  image: "/static/avatar/045-man-12.svg",
-  name: "Joe Murry",
-  profession: "Product Designer",
-  following: true
-}, {
-  image: "/static/avatar/040-man-11.svg",
-  name: "Mr. Breast",
-  profession: "Product Designer",
-  following: true
-}, {
-  image: "/static/avatar/041-woman-11.svg",
-  name: "Ethan Drake",
-  profession: "UI Designer",
-  following: true
-}, {
-  image: "/static/avatar/042-vampire.svg",
-  name: "Selena Gomez",
-  profession: "Marketing Manager",
-  following: false
-}, {
-  image: "/static/avatar/043-chef.svg",
-  name: "Sally Becker",
-  profession: "UI Designer",
-  following: true
-}, {
-  image: "/static/avatar/044-farmer.svg",
-  name: "Dua Lipa",
-  profession: "Marketing Manager",
-  following: false
-}, {
-  image: "/static/avatar/045-man-12.svg",
-  name: "Joe Murry",
-  profession: "Product Designer",
-  following: true
-}];
-const todoList = [{
-  id: "01",
-  title: "Create Minimal Logo",
-  date: "9/17/2021",
-  description: "Hey, Pixy can we get on a quick call? i need to show you something. You need to do some work for me ASAP. And you need to do it before Aug 25. Thanks get back to me.",
-  author: {
-    name: "Tom Cruise",
-    image: "/static/avatar/001-man.svg"
-  },
-  statusColor: "primary.main"
-}, {
-  id: "02",
-  title: "Therapy Session",
-  date: "9/17/2021",
-  description: "Hey, Pixy can we get on a quick call? i need to show you something. You need to do some work for me ASAP. And you need to do it before Aug 25. Thanks get back to me.",
-  author: {
-    name: "Tom Cruise",
-    image: "/static/avatar/002-girl.svg"
-  },
-  statusColor: "primary.red"
-}, {
-  id: "03",
-  title: "Create Minimal Logo",
-  date: "9/17/2021",
-  description: "Hey, Pixy can we get on a quick call? i need to show you something. You need to do some work for me ASAP. And you need to do it before Aug 25. Thanks get back to me.",
-  author: {
-    name: "Tom Cruise",
-    image: "/static/avatar/005-man-1.svg"
-  },
-  statusColor: "primary.main"
-}, {
-  id: "04",
-  title: "Website UI Design",
-  date: "9/17/2021",
-  description: "Hey, Pixy can we get on a quick call? i need to show you something. You need to do some work for me ASAP. And you need to do it before Aug 25. Thanks get back to me.",
-  author: {
-    name: "Tom Cruise",
-    image: "/static/avatar/011-man-2.svg"
-  },
-  statusColor: "primary.yellow"
-}];
-const viewColumns = {
-  users: {
-    name: "Users",
-    todos: []
-  }
-};
- 
-const onDragEnd = (result, columns, setColumns) => {
-  if (!result.destination) return;
-  const {
-    source,
-    destination
-  } = result;
+import { Box, Button, Typography, Divider, TextField, IconButton, Card } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import sectionApi from '../../api/sectionApi'
+import taskApi from '../../api/taskApi'
+import TaskModal from './TaskModal'
 
-  if (source.droppableId === destination.droppableId && source.index === destination.index) {
-    return;
+let timer
+const timeout = 500
+
+const Kanban = props => {
+  const boardId = props.boardId
+  const [data, setData] = useState([])
+  const [selectedTask, setSelectedTask] = useState(undefined)
+
+  useEffect(() => {
+    setData(props.data)
+  }, [props.data])
+
+  const onDragEnd = async ({ source, destination }) => {
+    if (!destination) return
+    const sourceColIndex = data.findIndex(e => e.id === source.droppableId)
+    const destinationColIndex = data.findIndex(e => e.id === destination.droppableId)
+    const sourceCol = data[sourceColIndex]
+    const destinationCol = data[destinationColIndex]
+
+    const sourceSectionId = sourceCol.id
+    const destinationSectionId = destinationCol.id
+
+    const sourceTasks = [...sourceCol.tasks]
+    const destinationTasks = [...destinationCol.tasks]
+
+    if (source.droppableId !== destination.droppableId) {
+      const [removed] = sourceTasks.splice(source.index, 1)
+      destinationTasks.splice(destination.index, 0, removed)
+      data[sourceColIndex].tasks = sourceTasks
+      data[destinationColIndex].tasks = destinationTasks
+    } else {
+      const [removed] = destinationTasks.splice(source.index, 1)
+      destinationTasks.splice(destination.index, 0, removed)
+      data[destinationColIndex].tasks = destinationTasks
+    }
+
+    try {
+      await taskApi.updatePosition(boardId, {
+        resourceList: sourceTasks,
+        destinationList: destinationTasks,
+        resourceSectionId: sourceSectionId,
+        destinationSectionId: destinationSectionId
+      })
+      setData(data)
+    } catch (err) {
+      alert(err)
+    }
   }
 
-  if (source.droppableId !== destination.droppableId) {
-    const sourceColumn = columns[source.droppableId];
-    const destColumn = columns[destination.droppableId];
-    const sourceItems = [...sourceColumn.todos];
-    const destItems = [...destColumn.todos];
-    const [removed] = sourceItems.splice(source.index, 1);
-    destItems.splice(destination.index, 0, removed);
-    setColumns({ ...columns,
-      [source.droppableId]: { ...sourceColumn,
-        todos: sourceItems
-      },
-      [destination.droppableId]: { ...destColumn,
-        todos: destItems
+  const createSection = async () => {
+    try {
+      const section = await sectionApi.create(boardId)
+      setData([...data, section])
+    } catch (err) {
+      alert(err)
+    }
+  }
+
+  const deleteSection = async (sectionId) => {
+    try {
+      await sectionApi.delete(boardId, sectionId)
+      const newData = [...data].filter(e => e.id !== sectionId)
+      setData(newData)
+    } catch (err) {
+      alert(err)
+    }
+  }
+
+  const updateSectionTitle = async (e, sectionId) => {
+    clearTimeout(timer)
+    const newTitle = e.target.value
+    const newData = [...data]
+    const index = newData.findIndex(e => e.id === sectionId)
+    newData[index].title = newTitle
+    setData(newData)
+    timer = setTimeout(async () => {
+      try {
+        await sectionApi.update(boardId, sectionId, { title: newTitle })
+      } catch (err) {
+        alert(err)
       }
-    });
-  } else {
-    const column = columns[source.droppableId];
-    const copiedItems = [...column.todos];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
-    setColumns({ ...columns,
-      [source.droppableId]: { ...column,
-        todos: copiedItems
-      }
-    });
+    }, timeout);
   }
-};
 
-const TeamKanban = () => {
-  const [columns, setColumns] = useState(viewColumns);
-  const [showAddTodoForm, setShowAddTodoForm] = useState(false);
-  const {
-    t
-  } = useTranslation();
-  return <Grid container spacing={3}>
-      <DragDropContext onDragEnd={result => onDragEnd(result, columns, setColumns)}>
-        {Object.entries(columns).map(([columnId, column], index) => {
-        return <Grid item xs={12} sm={6} lg={4} key={index}>
-              <Card sx={{
-            height: "100%",
-            maxHeight: 700
-          }}>
-                {columnId === "users" ? <Box padding="1rem">
-                    <H5>{t(column.name)}</H5>
-                    <Button fullWidth variant="contained" onClick={() => setShowAddTodoForm(true)} sx={{
-                marginY: "1rem",
-                display: showAddTodoForm ? "none" : "auto"
-              }}>
-                      <Add />
-                    </Button>
-                  
-                  </Box> : <H5 padding="1rem">{t(column.name)}</H5>}
+  const createTask = async (sectionId) => {
+    try {
+      const task = await taskApi.create(boardId, { sectionId })
+      const newData = [...data]
+      const index = newData.findIndex(e => e.id === sectionId)
+      newData[index].tasks.unshift(task)
+      setData(newData)
+    } catch (err) {
+      alert(err)
+    }
+  }
 
-                <Droppable droppableId={columnId}>
-                  {provided => {
-                return <DroppableWrapper {...provided.droppableProps} ref={provided.innerRef}>
-                        {column.todos.map((todo, index) => {
-                    return <Draggable draggableId={todo.id} index={index} key={todo.id}>
-                              {provided => {
-                        return <Card key={todo.id} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{ ...provided.draggableProps.style
-                        }} sx={{
-                          boxShadow: 2,
-                          padding: "1rem",
-                          marginBottom: "1.5rem"
-                        }}>
-                                    <FlexBox alignItems="center" justifyContent="space-between">
-                                      <Small>July 2, 2020</Small>
-                                      <IconButton sx={{
-                              padding: 0
-                            }} // onClick={handleMoreClick}
-                            >
-                                        <MoreHoriz />
-                                      </IconButton>
-                                    </FlexBox>
+  const onUpdateTask = (task) => {
+    const newData = [...data]
+    const sectionIndex = newData.findIndex(e => e.id === task.section.id)
+    const taskIndex = newData[sectionIndex].tasks.findIndex(e => e.id === task.id)
+    newData[sectionIndex].tasks[taskIndex] = task
+    setData(newData)
+  }
 
-                                    <Box sx={{
-                            textAlign: "center",
-                            pt: 6,
-                            pb: 4
-                          }}>
-                                      <H3>Web Designing</H3>
-                                      <H6 color="text.disabled" fontWeight={500} mt={0.5}>
-                                        Prototyping
-                                      </H6>
-                                    </Box>
+  const onDeleteTask = (task) => {
+    const newData = [...data]
+    const sectionIndex = newData.findIndex(e => e.id === task.section.id)
+    const taskIndex = newData[sectionIndex].tasks.findIndex(e => e.id === task.id)
+    newData[sectionIndex].tasks.splice(taskIndex, 1)
+    setData(newData)
+  }
 
-                                    <FlexBox justifyContent="space-between" py={1}>
-                                      <Paragraph fontWeight={600}>
-                                        Project Progress
-                                      </Paragraph>
-                                      <Paragraph fontWeight={600}>
-                                        32%
-                                      </Paragraph>
-                                    </FlexBox>
-
-                                    <LinearProgress value={32} variant="determinate" sx={{
-                            "& .MuiLinearProgress-bar": {
-                              backgroundColor: todo.statusColor
-                            }
-                          }} />
-
-                                    <FlexBox alignItems="center" justifyContent="space-between" pt="1.5rem">
-                                      <FlexBox alignItems="center">
-                                        <AvatarGroup>
-                                          <StyledAvatar alt="Remy Sharp" src="/static/avatar/001-man.svg" />
-                                          <StyledAvatar alt="Travis Howard" src="/static/avatar/002-girl.svg" />
-                                        </AvatarGroup>
-                                        <AddIconButton sx={{
-                                marginLeft: 0
-                              }} />
-                                      </FlexBox>
-
-                                      <Small sx={{
-                              backgroundColor: "divider",
-                              padding: "5px 15px",
-                              borderRadius: "20px",
-                              marginLeft: 1,
-                              color: "text.disabled",
-                              fontWeight: 600
-                            }}>
-                                        3 Weeks Left
-                                      </Small>
-                                    </FlexBox>
-                                  </Card>;
-                      }}
-                            </Draggable>;
-                  })}
-                        {provided.placeholder}
-                      </DroppableWrapper>;
-              }}
+  return (
+    <>
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <Button onClick={createSection}>
+          Add section
+        </Button>
+        <Typography variant='body2' fontWeight='700'>
+          {data.length} Sections
+        </Typography>
+      </Box>
+      <Divider sx={{ margin: '10px 0' }} />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          width: 'calc(100vw - 400px)',
+          overflowX: 'auto'
+        }}>
+          {
+            data.map(section => (
+              <div key={section.id} style={{ width: '300px' }}>
+                <Droppable key={section.id} droppableId={section.id}>
+                  {(provided) => (
+                    <Box
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      sx={{ width: '300px', padding: '10px', marginRight: '10px' }}
+                    >
+                      <Box sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '10px'
+                      }}>
+                        <TextField
+                          value={section.title}
+                          onChange={(e) => updateSectionTitle(e, section.id)}
+                          placeholder='Untitled'
+                          variant='outlined'
+                          sx={{
+                            flexGrow: 1,
+                            '& .MuiOutlinedInput-input': { padding: 0 },
+                            '& .MuiOutlinedInput-notchedOutline': { border: 'unset ' },
+                            '& .MuiOutlinedInput-root': { fontSize: '1rem', fontWeight: '700' }
+                          }}
+                        />
+                        <IconButton
+                          variant='outlined'
+                          size='small'
+                          sx={{
+                            color: 'gray',
+                            '&:hover': { color: 'green' }
+                          }}
+                          onClick={() => createTask(section.id)}
+                        >
+                          <AddOutlinedIcon />
+                        </IconButton>
+                        <IconButton
+                          variant='outlined'
+                          size='small'
+                          sx={{
+                            color: 'gray',
+                            '&:hover': { color: 'red' }
+                          }}
+                          onClick={() => deleteSection(section.id)}
+                        >
+                          <DeleteOutlinedIcon />
+                        </IconButton>
+                      </Box>
+                      {/* tasks */}
+                      {
+                        section.tasks.map((task, index) => (
+                          <Draggable key={task.id} draggableId={task.id} index={index}>
+                            {(provided, snapshot) => (
+                              <Card
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                sx={{
+                                  padding: '10px',
+                                  marginBottom: '10px',
+                                  cursor: snapshot.isDragging ? 'grab' : 'pointer!important'
+                                }}
+                                onClick={() => setSelectedTask(task)}
+                              >
+                                <Typography>
+                                  {task.title === '' ? 'Untitled' : task.title}
+                                </Typography>
+                              </Card>
+                            )}
+                          </Draggable>
+                        ))
+                      }
+                      {provided.placeholder}
+                    </Box>
+                  )}
                 </Droppable>
-              </Card>
-            </Grid>;
-      })}
+              </div>
+            ))
+          }
+        </Box>
       </DragDropContext>
-    </Grid>;
-};
+      <TaskModal
+        task={selectedTask}
+        boardId={boardId}
+        onClose={() => setSelectedTask(undefined)}
+        onUpdate={onUpdateTask}
+        onDelete={onDeleteTask}
+      />
+    </>
+  )
+}
 
-export default TeamKanban;
+export default Kanban
