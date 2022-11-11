@@ -1,7 +1,7 @@
 import { Box, Button, Card, styled, useTheme } from "@mui/material";
 import FlexBox from "../../components/Box/FlexBox";
 import { H6, Tiny } from "../../components/Typography";
-import UkoAvatar from "../../components/StyledAvatar";
+import StyledAvatar from "../../components/StyledAvatar";
 const StyledButton = styled(Button)(({
   theme
 }) => ({
@@ -27,7 +27,7 @@ const FollowerCard = ({
   }}>
       <FlexBox justifyContent="space-between" alignItems="center">
         <FlexBox>
-          <UkoAvatar src={follower.image} sx={{
+          <StyledAvatar src={follower.image} sx={{
           width: 42,
           height: 42
         }} />

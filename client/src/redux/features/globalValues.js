@@ -47,6 +47,7 @@ export const {
 setContact,
 setCustomer,
 setProject,
+setChat,
 filterContactByGivenValue,
 filterCustomerByGivenValue,
 filterProjectByGivenValue,

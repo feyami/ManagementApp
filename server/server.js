@@ -6,6 +6,7 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import MongoDbConnection from './configuration/mongoDbConfig.js';
 import socketIo from './configuration/socketIo.js';
+
 import path from 'path';
 
 //* Importing Routes
@@ -16,19 +17,13 @@ import MongoStore from 'connect-mongo';
 dotenv.config();
 const app = express(); 
 
-const __dirname1 = path.resolve();
+//const __dirname1 = path.resolve();
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname1, "/frontend/build")));
 
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
-  );
-} else {
   app.get("/", (req, res) => {
     res.send("API is running..");
   });
-}
+
 
 // app.use(
 //  cookieSession({

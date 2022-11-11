@@ -53,6 +53,7 @@ export const passportGoogle = async () => {
     });
     passport.deserializeUser((id, done) => {
         userSchema.findById(id).then((user) => {
+            console.log("useffffffr", user);
             done(null, user);
         });
     });

@@ -56,7 +56,7 @@ const DashboardNavbar = props => {
         <H3 sx={{
           ml: 1,
           color: "primary.dark"
-        }}>{user?.google.displayName }</H3>
+        }}>{user?.fullName }</H3>
   
         
         </FlexBox>

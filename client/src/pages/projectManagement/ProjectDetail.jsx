@@ -8,7 +8,7 @@ import { H3 } from "../../components/Typography";
 import useTitle from "../../hooks/useTitle";
 import { useState } from "react";
 import { useTranslation } from "react-i18next"; // styled components
-import TeamKanban from "../../components/projectManagement/teamKanban";
+import TeamKanban1 from "../../components/projectManagement/TeamKanban1";
 const StyledCard = styled(Card)(() => ({
   position: "relative",
   borderTopLeftRadius: 0,
@@ -74,11 +74,12 @@ const UserProfile = () => {
           </StyledTabPanel>
 
           <StyledTabPanel value="2">
-            <TeamKanban />
+            <H3>Teams</H3>
           </StyledTabPanel>
 
           <StyledTabPanel value="3">
-            <H3>Todos</H3>
+            
+            <TeamKanban1 />
           </StyledTabPanel>
 
           <StyledTabPanel value="4">

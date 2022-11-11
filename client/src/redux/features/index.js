@@ -39,7 +39,7 @@ export const useProjectSlice = () => {
 
 export const useContactSlice = () => {
     const dispatch = useDispatch();
-    const { getContacts, getContactsByCustomer, getContactsByProject, updateContact, deleteContact } = contactSlice;
+    const { getContacts, updateContact, deleteContact } = contactSlice;
     const { setContact } = globalValuesSlice;
     const contact = useSelector((state) => state.contact.contact);
     const contacts = useSelector((state) => state.contact.contacts);
@@ -47,8 +47,8 @@ export const useContactSlice = () => {
         contact,
         contacts,
         getContacts: () => dispatch(getContacts()),
-        getContactsByCustomer: (id) => dispatch(getContactsByCustomer(id)),
-        getContactsByProject: (id) => dispatch(getContactsByProject(id)),
+        
+        
         updateContact: (data) => dispatch(updateContact(data)),
         deleteContact: (id) => dispatch(deleteContact(id)),
         setContact: (data) => dispatch(setContact(data)),
@@ -57,7 +57,7 @@ export const useContactSlice = () => {
 
 export const useCustomerSlice = () => {
     const dispatch = useDispatch();
-    const { getCustomers, getCustomersNames, updateCustomer, deleteCustomer } = customerSlice;
+    const { getCustomers,  updateCustomer, deleteCustomer } = customerSlice;
     const { setCustomer } = globalValuesSlice;
     const customer = useSelector((state) => state.customer.customer);
     const customers = useSelector((state) => state.customer.customers);
@@ -65,7 +65,7 @@ export const useCustomerSlice = () => {
         customer,
         customers,
         getCustomers: () => dispatch(getCustomers()),
-        getCustomersNames: () => dispatch(getCustomersNames()),
+        
         updateCustomer: (data) => dispatch(updateCustomer(data)),
         deleteCustomer: (id) => dispatch(deleteCustomer(id)),
         setCustomer: (data) => dispatch(setCustomer(data)),
